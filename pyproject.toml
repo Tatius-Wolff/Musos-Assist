@@ -38,9 +38,6 @@ flake8-pyproject = "^1.2.3"
 behave = "^1.2.6"
 pdoc = "^15.0.1"
 commitizen = "^4.1.0"
-notebook = "^7.3.2"
-ipywidgets = "^8.1.5"
-ipykernel = "^6.29.5"
 
 [build-system]
 requires = ["poetry-core>=2.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
