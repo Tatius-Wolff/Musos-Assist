@@ -58,7 +58,8 @@ class MusicSingleRelease(BaseModel):
         description="Optional: List of formats the single is released in (e.g., ['Digital', 'Vinyl', 'CD']).",
     )
     duration: Optional[timedelta] = Field(
-        None, description="Optional: Duration of the single track."
+        None,
+        description="Optional: Duration of the single track.",
     )
     artwork_url: Optional[HttpUrl] = Field(
         None, description="Optional: URL to the artwork image for the single."
@@ -82,6 +83,9 @@ class MusicSingleRelease(BaseModel):
     language: Optional[str] = Field(
         None,
         description="Optional: Language of the lyrics in the single, if applicable.",
+    )
+    lyrics: Optional[str] = Field(
+        None, description="Optional: Full lyrics of the single."
     )
     notes: Optional[str] = Field(
         None,

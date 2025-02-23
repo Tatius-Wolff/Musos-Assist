@@ -23,6 +23,7 @@ VALID_SINGLE_DATA = {
     "composers": ["John Doe", "Jane Smith"],
     "producers": ["Producer X"],
     "language": "English",
+    "lyrics": "Lyrics go here,\nThis is my song,\nThis is a cool song.",
     "notes": "This is a radio edit version.",
 }
 
@@ -51,6 +52,7 @@ def test_valid_music_single_release() -> None:
     assert single.composers == VALID_SINGLE_DATA["composers"]
     assert single.producers == VALID_SINGLE_DATA["producers"]
     assert single.language == VALID_SINGLE_DATA["language"]
+    assert single.lyrics == VALID_SINGLE_DATA["lyrics"]
     assert single.notes == VALID_SINGLE_DATA["notes"]
 
 
@@ -143,6 +145,7 @@ def test_optional_fields_can_be_none() -> None:
         "composers",
         "producers",
         "language",
+        "lyrics",
         "notes",
     ]
     for field in optional_fields:
