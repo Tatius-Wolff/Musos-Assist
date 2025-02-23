@@ -25,7 +25,7 @@ pip check
 
 poetry lock
 poetry update --lock
-poetry install # --sync --without=dev
+poetry sync # --without=dev
 
 poetry run mypy musos_assist tests
 poetry run flake8 #--output-file=build/flake8/flake8.txt
