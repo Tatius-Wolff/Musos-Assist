@@ -1,8 +1,10 @@
-from typing import List, Any
+from typing import List, Union, Any
 import logging
 import os
 from fastapi import APIRouter, HTTPException, status
+from pydantic import ValidationError
 from musos_assist.musicsinglerelease import MusicSingleRelease
+from musos_assist.constants import SINGLE_NOT_FOUND, EXAMPLE_SINGLE_DATA
 
 
 # Configure logging
@@ -16,38 +18,28 @@ logging.basicConfig(
 singles_router = APIRouter()
 
 # Example Usage Data (for testing via API client like curl or Postman)
-EXAMPLE_SINGLE_DATA: dict[str, Any] = {
-    "title": "My Awesome Song",
-    "isrc": "USX9P2400001",
-    "artist_names": ["My Band"],
-    "release_date": "2024-01-15",
-    "genres": ["Rock", "Indie"],
-    "label": "Independent Label",
-    "version": "Original",
-    "formats": ["Digital", "Vinyl"],
-    "duration": "00:03:45",  # ISO 8601 duration format might be better in real-world, or seconds/minutes
-    "artwork_url": "https://example.com/artwork.jpg",
-    "audio_preview_url": "https://example.com/preview.mp3",
-    "catalog_number": "MBR001",
-    "subgenres": ["Alternative Rock"],
-    "composers": ["John Doe", "Jane Smith"],
-    "producers": ["Producer Y"],
-    "language": "English",
-    "lyrics": "Lyrics go here,\nThis is my song,\nThis is a cool song.",
-    "notes": "Debut single.",
-}
+example_single = MusicSingleRelease(**EXAMPLE_SINGLE_DATA)
 
 # In-memory database (replace with a real database in production)
-singles_db = {}  # EXAMPLE_SINGLE_DATA["isrc"]: EXAMPLE_SINGLE_DATA}
+singles_db: dict[str, MusicSingleRelease] = {}  # example_single.isrc: example_single}
 
 
 @singles_router.post(
     "/singles/", response_model=MusicSingleRelease, status_code=status.HTTP_201_CREATED
 )
-async def create_single(single: MusicSingleRelease) -> MusicSingleRelease:
+async def create_single(
+    single: Union[MusicSingleRelease, dict[str, Any]],
+) -> MusicSingleRelease:
     """
     Create a new music single release.
     """
+    if isinstance(single, dict):
+        try:
+            single = MusicSingleRelease(**single)
+        except ValidationError as e:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=e.errors()
+            )
     if single.isrc in singles_db:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="ISRC already exists"
@@ -71,7 +63,7 @@ async def read_single(isrc: str) -> Any:
     """
     if isrc not in singles_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Single not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=SINGLE_NOT_FOUND
         )
     return singles_db[isrc]
 
@@ -90,7 +82,7 @@ async def update_single(
         )
     if isrc not in singles_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Single not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=SINGLE_NOT_FOUND
         )
     singles_db[isrc] = single_update  # Replace the existing single with the updated one
     return single_update
@@ -103,7 +95,7 @@ async def delete_single(isrc: str) -> None:
     """
     if isrc not in singles_db:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Single not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=SINGLE_NOT_FOUND
         )
     del singles_db[isrc]
     return None  # 204 No Content - no response body

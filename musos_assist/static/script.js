@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             document.getElementById("artwork").src = single.artwork_url;
             document.getElementById("audio").src = single.audio_preview_url;
-            document.getElementById("lyrics").innerHTML = single.lyrics.replace(/\n/g, "<br>");
+            const sanitizedLyrics = single.lyrics.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+            document.getElementById("lyrics").innerHTML = sanitizedLyrics;
             document.getElementById("title").textContent = single.title;
             document.getElementById("artist").textContent = single.artist_names.join(", ");
             document.getElementById("release-date").textContent = single.release_date;

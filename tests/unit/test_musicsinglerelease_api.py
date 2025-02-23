@@ -2,29 +2,10 @@ from typing import Any, Dict
 from httpx import Response
 from fastapi.testclient import TestClient
 from musos_assist import app
+from musos_assist.constants import EXAMPLE_SINGLE_DATA
 import pytest
 
 # Example Usage Data (for testing via API client like curl or Postman)
-EXAMPLE_SINGLE_DATA: Dict[str, Any] = {
-    "title": "My Awesome Song",
-    "isrc": "USX9P2400001",
-    "artist_names": ["My Band"],
-    "release_date": "2024-01-15",
-    "genres": ["Rock", "Indie"],
-    "label": "Independent Label",
-    "version": "Original",
-    "formats": ["Digital", "Vinyl"],
-    "duration": "PT3M45S",  # ISO 8601 duration format might be better in real-world, or seconds/minutes
-    "artwork_url": "https://example.com/artwork.jpg",
-    "audio_preview_url": "https://example.com/preview.mp3",
-    "catalog_number": "MBR001",
-    "subgenres": ["Alternative Rock"],
-    "composers": ["John Doe", "Jane Smith"],
-    "producers": ["Producer Y"],
-    "language": "English",
-    "notes": "Debut single.",
-}
-
 client = TestClient(app)  # Create a TestClient instance for your FastAPI router
 
 

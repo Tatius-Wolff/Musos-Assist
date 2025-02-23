@@ -12,5 +12,9 @@
     "flake8.importStrategy": "fromEnvironment",
     "mypy-type-checker.importStrategy": "fromEnvironment",
     "mypy-type-checker.reportingScope": "workspace",
-    "flake8.showNotifications": "onWarning"
+    "flake8.showNotifications": "onWarning",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "http-127-0-0-1-9000-",
+        "projectKey": "Musos-Assist"
+    }
 }
