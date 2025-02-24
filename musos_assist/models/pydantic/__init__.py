@@ -4,19 +4,12 @@ import logging
 import os
 from pydantic import BaseModel, Field, HttpUrl
 
-
 # Configure logging
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 logging.basicConfig(
     level=getattr(logging, LOG_LEVEL, logging.WARNING),
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
-
-# FIXME: pydantic_core._pydantic_core.ValidationError: 1 validation error for Crew Value error, Please provide an
-# OpenAI API key.
-# Need to set false OPENAI_API_KEY to a non-empty string to avoid this error using memory=True on your Crew()
-# if not os.environ.get("OPENAI_API_KEY"):
-#     os.environ["OPENAI_API_KEY"] = "N/A"
 
 
 class MusicSingleRelease(BaseModel):

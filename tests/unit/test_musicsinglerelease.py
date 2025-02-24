@@ -1,8 +1,7 @@
 import pytest
 from pydantic import ValidationError
 from datetime import date, timedelta
-
-from musos_assist.musicsinglerelease import MusicSingleRelease
+from musos_assist.models.pydantic import MusicSingleRelease
 
 
 # Valid data for testing

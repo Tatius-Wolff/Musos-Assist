@@ -3,7 +3,7 @@ import logging
 import os
 from fastapi import APIRouter, HTTPException, status
 from pydantic import ValidationError
-from musos_assist.musicsinglerelease import MusicSingleRelease
+from musos_assist.models.pydantic import MusicSingleRelease
 from musos_assist.constants import SINGLE_NOT_FOUND, EXAMPLE_SINGLE_DATA
 
 
