@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 from datetime import date, timedelta
-from musos_assist.models.pydantic import MusicSingleRelease
+from musos_assist.domain.models import MusicSingleRelease
 
 
 # Valid data for testing
@@ -29,7 +29,7 @@ VALID_SINGLE_DATA = {
 
 def test_valid_music_single_release() -> None:
     """Test creating a valid MusicSingleRelease model."""
-    single = MusicSingleRelease(**VALID_SINGLE_DATA)  # type: ignore[arg-type]
+    single = MusicSingleRelease(**VALID_SINGLE_DATA.copy())  # type: ignore[arg-type]
     assert isinstance(single, MusicSingleRelease)
     assert single.title == VALID_SINGLE_DATA["title"]
     assert single.isrc == VALID_SINGLE_DATA["isrc"]
