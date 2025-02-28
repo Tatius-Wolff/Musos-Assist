@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "musos_assist"
-version = "0.1.0" # This is not used - version is controlled by poetry_dynamic_versioning
+version = "0.2.0" # This is not used - version is controlled by poetry_dynamic_versioning
 description = "A platform for musicians and artists to release and promote their art on a regular cadence."
 authors = ["Stephan Borg <tatius.wolff@gmail.com>"]
 readme = "README.md"
