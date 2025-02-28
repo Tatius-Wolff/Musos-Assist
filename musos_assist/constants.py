@@ -1,7 +1,5 @@
 from typing import Any
 
-SINGLE_NOT_FOUND = "Single not found"
-
 EXAMPLE_SINGLE_DATA: dict[str, Any] = {
     "title": "My Awesome Song",
     "isrc": "USX9P2400001",
@@ -22,3 +20,5 @@ EXAMPLE_SINGLE_DATA: dict[str, Any] = {
     "lyrics": "Lyrics go here,\nThis is my song,\nThis is a cool song.",
     "notes": "Debut single.",
 }
+
+SINGLE_NOT_FOUND = "Single not found"

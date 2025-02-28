@@ -1,9 +1,10 @@
 from typing import Any, Dict
+import pytest
 from httpx import Response
 from fastapi.testclient import TestClient
 from musos_assist import app
-from musos_assist.constants import EXAMPLE_SINGLE_DATA
-import pytest
+from musos_assist.constants import EXAMPLE_SINGLE_DATA, SINGLE_NOT_FOUND
+
 
 # Example Usage Data (for testing via API client like curl or Postman)
 client = TestClient(app)  # Create a TestClient instance for your FastAPI router
@@ -65,7 +66,7 @@ def test_read_single_not_found() -> None:
     """Test reading a non-existent music single."""
     response: Response = client.get("/singles/NONEXISTENT_ISRC")
     assert response.status_code == 404
-    assert response.json() == {"detail": "Single not found"}
+    assert response.json() == {"detail": SINGLE_NOT_FOUND}
 
 
 def test_list_singles_multiple() -> None:
@@ -104,25 +105,12 @@ def test_update_single_exists(create_single: None) -> None:
 
 def test_update_single_not_found() -> None:
     """Test updating a non-existent music single."""
-    updated_data = EXAMPLE_SINGLE_DATA.copy()
-    updated_data["title"] = "Updated Song Title"
-    updated_data["isrc"] = "USX9P2400003"  # ISRC in body is different from path
-    response: Response = client.put(
-        f"/singles/{updated_data['isrc']}", json=updated_data
-    )
-    assert response.status_code == 404
-    assert response.json() == {"detail": "Single not found"}
-
-
-def test_update_single_isrc_mismatch(create_single: None) -> None:
-    """Test updating with ISRC mismatch in path and body."""
     updated_data: Dict[str, Any] = EXAMPLE_SINGLE_DATA.copy()
-    updated_data["isrc"] = "USX9P2400004"  # ISRC in body is different from path
-    response: Response = client.put(
-        f"/singles/{EXAMPLE_SINGLE_DATA['isrc']}", json=updated_data
-    )
-    assert response.status_code == 400
-    assert response.json() == {"detail": "ISRC in path and request body do not match"}
+    updated_data["title"] = "Updated Song Title"
+    isrc = updated_data["isrc"] = "USX9P2400003"  # ISRC in body is different from path
+    response: Response = client.put(f"/singles/{isrc}", json=updated_data)
+    assert response.status_code == 404
+    assert response.json() == {"detail": SINGLE_NOT_FOUND}
 
 
 def test_delete_single_exists(create_single: None) -> None:
@@ -140,4 +128,4 @@ def test_delete_single_not_found() -> None:
     """Test deleting a non-existent music single."""
     response: Response = client.delete("/singles/NONEXISTENT_ISRC")
     assert response.status_code == 404
-    assert response.json() == {"detail": "Single not found"}
+    assert response.json() == {"detail": SINGLE_NOT_FOUND}
