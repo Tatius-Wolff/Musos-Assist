@@ -1,8 +1,9 @@
 from typing import List
+from pydantic import BaseModel
 from musos_assist.domain.models import MusicSingleRelease
 
 
-class MusicSingleReleaseRepository:
+class MusicSingleReleaseRepository(BaseModel):
     def create_single(self, single: MusicSingleRelease) -> MusicSingleRelease:
         raise NotImplementedError
 

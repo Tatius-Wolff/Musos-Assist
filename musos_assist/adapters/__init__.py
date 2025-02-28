@@ -5,8 +5,7 @@ from musos_assist.constants import SINGLE_NOT_FOUND
 
 
 class InMemoryMusicSingleReleaseRepository(MusicSingleReleaseRepository):
-    def __init__(self) -> None:
-        self.singles_db: dict[str, MusicSingleRelease] = {}
+    singles_db: dict[str, MusicSingleRelease] = {}
 
     def create_single(self, single: MusicSingleRelease) -> MusicSingleRelease:
         if single.isrc in self.singles_db:
